@@ -3,7 +3,13 @@
 Matches students from a LMS roster to their grades on Gradescope, calculates their final grade alongside grading policies, and then outputs a CSV file of students and their updated grades.
 
 ## Table Of Contents
-
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+  - [CLI](#cli)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Credits](#credits)
 ---
 
 ## Features
@@ -13,7 +19,7 @@ Matches students from a LMS roster to their grades on Gradescope, calculates the
 
 ---
 
-## Installation
+## Install
 
 Install Python (3.10 or newer): https://www.python.org/downloads/ \
 Verify (In Command Line): python --version
@@ -52,7 +58,7 @@ Verify (In Command Line): gbmerge --version
 <!-- TODO -->
 
 ---
-## Maintainer
+## Maintainers
 
 Keegan Gallagher - ksgallagher@umass.edu
 
