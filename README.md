@@ -55,7 +55,152 @@ Verify (In Command Line): gbmerge --version
 
 
 ## API
-<!-- TODO -->
+
+### Using the Python Library
+
+Instead of using the API through command lines you can alternatively use it in Python with the following code:
+
+```python
+from gbmerge import MergeJob, load_config
+
+job = MergeJob(
+    roster="roster.csv",
+    exports="exports/hw4_scores.csv",
+    assignment="Homework 4 (884213)",
+    config=load_config()
+)
+
+plan = job.plan()
+print(plan.format_preview())
+job.write(plan, "upload.csv")
+```
+
+- `MergeJob` manages loading, matching, scoring, and generating output.
+- `load_config()` loads configuration settings or built-in defaults.
+- `plan()` returns an `UploadPlan` without writing a file.
+- `format_preview()` displays the proposed grade changes.
+- `write()` saves the upload CSV and returns its path.
+
+To perform a dry run in Python change the last three lines to these two:
+
+```python
+plan = job.run(dry_run=True)
+print(plan.format_preview())
+```
+
+### Public API Reference
+
+#### Jobs and File Loading
+
+| Name | Description / Return Value |
+|---|---|
+| `MergeJob(roster, exports, assignment, config)` | Creates a merge job. Provides `load()`, `match()`, `score()`, `plan()`, `write()`, and `run()` methods. |
+| `Gradebook` | Represents a loaded gradebook. Provides `load()`, `match()`, `score()`, and `plan()` methods. |
+| `load_roster(path, ...)` | Loads an LMS gradebook CSV and returns a `Roster`. |
+| `load_export(path, ...)` | Loads one Gradescope CSV and returns a `GradescopeExport`. |
+| `load_exports(directory, ...)` | Loads matching Gradescope CSVs and returns a list of `GradescopeExport` objects. |
+| `load_config(path=None, ...)` | Loads configuration and returns a `Config`. |
+| `find_config(start=".")` | Searches for a configuration file and returns its path or `None`. |
+
+#### Student Matching
+
+| Name | Description / Return Value |
+|---|---|
+| `match_students(roster, exports, ...)` | Matches submissions to students and returns a `MatchReport`. |
+| `parse_match_on(value)` | Validates matching strategies and returns a list of strategy names. |
+| `explain_unmatched(report, roster)` | Returns a list of explanations for unmatched submissions. |
+
+`match_students()` supports the following optional parameters:
+
+- `match_on` — Matching strategies in priority order (`sis_id`, `email`, `name`).
+- `fuzzy` — Enables approximate name matching; default is `False`.
+- `fuzzy_threshold` — Minimum name similarity; default is `0.88`.
+- `on_ambiguous` — How to handle ambiguous matches: `report`, `skip`, `first`, or `fail`.
+
+#### Grading Policies
+
+| Name | Description / Return Value |
+|---|---|
+| `apply_policy(roster, report, policy=None, ...)` | Applies grading rules and returns a `ScoreSheet`. |
+| `register_policy(name, fn=None)` | Registers a custom policy function or decorator. |
+| `get_policy(name)` | Returns a registered policy function. |
+| `available_policies()` | Returns a sorted list of available policy names. |
+| `late_days(lateness_seconds, grace_minutes=0)` | Returns the number of started late days. |
+| `apply_rounding(value, mode="half_up", places=2)` | Returns a rounded numeric score. |
+| `drop_lowest_questions(question_scores, count)` | Returns the remaining score total and a list of dropped questions. |
+
+#### Output
+
+| Name | Description / Return Value |
+|---|---|
+| `build_upload_plan(roster, sheet, assignment_column, ...)` | Builds an in-memory `UploadPlan`. |
+| `write_upload_csv(path, plan, ...)` | Writes an LMS upload CSV and returns its path. |
+| `write_audit_log(path, plan, ...)` | Writes a JSON-lines audit log and returns its path. |
+
+#### Public Data Types and Utilities
+
+| Name | Purpose |
+|---|---|
+| `Roster`, `RosterRow` | LMS gradebook and student information |
+| `GradescopeExport`, `Submission` | Gradescope export and submission information |
+| `Config`, `DEFAULT_CONFIG` | Configuration settings and defaults |
+| `MatchReport`, `Match`, `Ambiguity`, `Duplicate` | Student matching results |
+| `Policy`, `PolicyOutcome`, `ScoreContext` | Grading policy information |
+| `ScoreSheet`, `ScoredStudent` | Calculated grades |
+| `UploadPlan`, `Change` | Output CSV and proposed changes |
+| `normalize_email(value)` | Returns the lowercase email prefix |
+| `normalize_sis_id(value)` | Returns a normalized SIS ID |
+| `detect_excel_damage(fieldnames, rows, ...)` | Returns warnings about possible CSV damage |
+| `__version__` | Package version (`0.6.2`) |
+
+### Custom Policy Hook
+
+The `register_policy()` function lets users make their own grading rules.
+
+Example, the following applies the policy to give late submissions half credit while giving on-time and exempt students full credit:
+
+```python
+from gbmerge import MergeJob, load_config, register_policy
+
+@register_policy("half_credit_late")
+def half_credit_late(ctx):
+    if ctx.exempt or not ctx.is_late:
+        return ctx.raw_score
+    return ctx.raw_score * 0.5
+
+config = load_config()
+config["policy"] = "half_credit_late"
+
+job = MergeJob(
+    roster="roster.csv",
+    exports="exports/hw4_scores.csv",
+    assignment="Homework 4 (884213)",
+    config=config
+)
+
+plan = job.run(dry_run=True)
+print(plan.format_preview())
+```
+
+The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `ScoreContext` object containing information about the student's submission:
+
+- `ctx.raw_score` — Original assignment score.
+- `ctx.is_late` — Whether the submission was late.
+- `ctx.exempt` — Whether the student is exempt from late penalties.
+
+### Exceptions
+
+| Exception | Description |
+|---|---|
+| `ConfigError` | Invalid or missing configuration |
+| `RosterError` | Invalid LMS gradebook |
+| `ExportError` | Invalid Gradescope export |
+| `EncodingError` | File encoding or decoding failure |
+| `ColumnNotFoundError` | Required column is missing |
+| `MatchError` | Invalid matching strategy or matching failure |
+| `AmbiguousMatchError` | Multiple possible student matches |
+| `PolicyError` | Invalid or failing grading policy |
+| `WriteError` | Output file could not be written |
 
 ---
 ## Maintainers
@@ -66,4 +211,4 @@ Keegan Gallagher - ksgallagher@umass.edu
 
 ## Credits
 
-This README was created using developer comments left in the files.
+The creation of this README used chatgpt to help with markdown formatting.
