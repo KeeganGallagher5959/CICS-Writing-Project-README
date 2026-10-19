@@ -55,8 +55,8 @@ WARNING: The script gbmerge.exe is installed in 'C:{YOUR PATH}' which is not on 
 ```
 - Copy your version of 'C:{YOUR PATH}' inside single quotation (will be different based on where you cloned repository, python version, etc).
 ```bash
-# Navigate to the program
-cd C:{YOUR PATH}
+# Set Path
+set "PATH=%PATH%;C:{YOUR PATH}"
 ```
 - Verify (In Command Line): gbmerge --version
 - If you get a gbmerge version then the installation is complete. 
@@ -64,6 +64,7 @@ cd C:{YOUR PATH}
 
 ## Usage
 <!-- TODO -->
+
 
 ### CLI
 ```
