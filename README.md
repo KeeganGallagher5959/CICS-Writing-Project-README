@@ -8,6 +8,16 @@ Matches students from a LMS roster to their grades on Gradescope, calculates the
 - [Usage](#usage)
   - [CLI](#cli)
 - [API](#api)
+  - [Python Library](#python-library)
+  - [Custom Policy](#custom-policy)
+  - [References](#references)
+    - [Loading Functions](#loading-functions)
+    - [Matching Functions](#matching-functions)
+    - [Policy Functions](#policy-functions)
+    - [Create Functions](#create-functions)
+    - [Utility Functions](#utility-functions)
+    - [Data Types](#data-types)
+    - [Errors](#errors)
 - [Maintainers](#maintainers)
 - [Credits](#credits)
 ---
@@ -21,11 +31,11 @@ Matches students from a LMS roster to their grades on Gradescope, calculates the
 
 ## Install
 
-Install Python (3.10 or newer): https://www.python.org/downloads/ \
-Verify (In Command Line): python --version
+Install Python (3.10 or newer): https://www.python.org/downloads/
+- Verify (In Command Line): python --version
 
-Install Git: https://git-scm.com/install/windows \
-Verify (In Command Line): git --version
+Install Git: https://git-scm.com/install/windows
+- Verify (In Command Line): git --version
 
 Open Repository in Command Line:
 ```bash
@@ -38,7 +48,7 @@ cd CICS-Writing-Project-README
 # Install dependencies
 python -m pip install .
 ```
-Verify (In Command Line): gbmerge --version
+- Verify (In Command Line): gbmerge --version
 
 ---
 
@@ -58,7 +68,7 @@ Verify (In Command Line): gbmerge --version
 
 ### Python Library
 
-Instead of using the API through command lines you can alternatively use it in Python with the following code:
+Instead of using Gradebook Merge through command lines you can alternatively interact with it in Python with the following code example:
 
 ```python
 from gbmerge import MergeJob, load_config
@@ -175,6 +185,8 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 | Name | Description |
 |---|---|
+| `MergeJob` | Represents a merge operation. Provides `load()`, `match()`, `score()`, `plan()`, `write()`, and `run()` methods. |
+| `Gradebook` | Represents a loaded gradebook. Provides `load()`, `match()`, `score()`, and `plan()` methods. |
 | `Roster`, `RosterRow` | Gradebook and student information |
 | `GradescopeExport`, `Submission` | Gradescope export and submission information |
 | `Config`, `DEFAULT_CONFIG` | Configuration settings |
@@ -183,7 +195,8 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 | `ScoreSheet`, `ScoredStudent` | Calculated grades |
 | `UploadPlan`, `Change` | Output CSV and proposed changes |
 
-### Errors
+
+#### Errors
 
 | Exception | Description |
 |---|---|
