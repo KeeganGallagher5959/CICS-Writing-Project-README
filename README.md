@@ -141,7 +141,7 @@ print(plan.format_preview())
 
 | Name | Purpose |
 |---|---|
-| `Roster`, `RosterRow` | LMS gradebook and student information |
+| `Roster`, `RosterRow` | Gradebook and student information |
 | `GradescopeExport`, `Submission` | Gradescope export and submission information |
 | `Config`, `DEFAULT_CONFIG` | Configuration settings and defaults |
 | `MatchReport`, `Match`, `Ambiguity`, `Duplicate` | Student matching results |
@@ -151,7 +151,7 @@ print(plan.format_preview())
 | `normalize_email(value)` | Returns the lowercase email prefix |
 | `normalize_sis_id(value)` | Returns a normalized SIS ID |
 | `detect_excel_damage(fieldnames, rows, ...)` | Returns warnings about possible CSV damage |
-| `__version__` | Package version (`0.6.2`) |
+| `__version__` | Package version (0.6.2) |
 
 ### Custom Policy Hook
 
