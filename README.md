@@ -55,9 +55,8 @@ python -m pip install .
 ## Usage
 <!-- TODO -->
 
-```
-
 ### CLI
+```
 <!-- TODO -->
 ```
 
