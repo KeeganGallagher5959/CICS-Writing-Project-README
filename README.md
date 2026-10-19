@@ -71,7 +71,7 @@ set "PATH=%PATH%;C:{YOUR PATH}"
 ---
 
 ## Usage 
-To use this application you need two files, the LMS gradebook CSV file and the Gradescope CSV file. Make sure to have these two files downloaded and in your `Downloads` folder.
+To use this application users need two files, the LMS gradebook CSV file and the Gradescope CSV file. Users should make sure to have these two files downloaded in their `Downloads` folder.
 
 In the repository directory, after having downloaded both your CSV files, perform the following commands:
 ```bash
@@ -344,7 +344,7 @@ The `--audit-log` attribute designates what the user wants the outputted json1 f
 
 ### Python Library
 
-Instead of using Gradebook Merge through command lines you can alternatively interact with it in Python with the following code example:
+Instead of using Gradebook Merge through command lines users can alternatively interact with the application in Python with the following code example:
 
 ```python
 from gbmerge import MergeJob, load_config
@@ -496,4 +496,4 @@ Keegan Gallagher - ksgallagher@umass.edu
 
 ## Credits
 
-This README was assisted in its creation with the use of chatgpt to help with markdown formatting and the making test files.
+This README was assisted in its creation with the use of chatgpt to help with markdown formatting and the making test of files.
