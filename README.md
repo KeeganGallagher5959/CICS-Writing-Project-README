@@ -48,8 +48,18 @@ cd CICS-Writing-Project-README
 # Install dependencies
 python -m pip install .
 ```
+- After installing the following warning may pop up looking similar to this:
+```
+WARNING: The script gbmerge.exe is installed in 'C:{YOUR PATH}' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+```
+- Copy your version of 'C:{YOUR PATH}' inside single quotation (will be different based on where you cloned repository, python version, etc).
+```bash
+# Navigate to the program
+cd C:{YOUR PATH}
+```
 - Verify (In Command Line): gbmerge --version
-
+- If you get a gbmerge version then the installation is complete. 
 ---
 
 ## Usage
