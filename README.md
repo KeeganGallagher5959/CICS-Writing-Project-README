@@ -62,8 +62,7 @@ set "PATH=%PATH%;C:{YOUR PATH}"
 - If you get a gbmerge version then the installation is complete. 
 ---
 
-## Usage
-Note that when running any commands it will output one of three numbers as exit codes: 0 means the command was fine, 1 means something was refused, 2 means bad usage.
+## Usage 
 
 ### CLI
 ```
