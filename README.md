@@ -127,7 +127,7 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 #### Loading Functions
 
-| Name | Description / Return Value |
+| Name | Description / Output Value |
 |---|---|
 | `load_roster(path, ...)` | Loads an LMS gradebook CSV and outputs a `Roster`. |
 | `load_export(path, ...)` | Loads one Gradescope CSV and outputs a `GradescopeExport`. |
@@ -136,7 +136,7 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 #### Matching Functions
 
-| Name | Description / Return Value |
+| Name | Description / Output Value |
 |---|---|
 | `match_students(roster, exports, ...)` | Matches submissions to students and outputs a `MatchReport`. |
 | `parse_match_on(value)` | Validates matching strategies and outputs a list of strategy names. |
@@ -144,7 +144,7 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 #### Policy Functions
 
-| Name | Description / Return Value |
+| Name | Description / Output Value |
 |---|---|
 | `apply_policy(roster, report, policy=None, ...)` | Applies grading rules and outputs a `ScoreSheet`. |
 | `register_policy(name, fn=None)` | Registers a custom policy function. |
@@ -156,7 +156,7 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 #### Create Functions
 
-| Name | Description / Return Value |
+| Name | Description / Output Value |
 |---|---|
 | `build_upload_plan(roster, sheet, assignment_column, ...)` | Builds an in-memory `UploadPlan`. |
 | `write_upload_csv(path, plan, ...)` | Writes an LMS upload CSV and outputs its path. |
@@ -164,16 +164,16 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 
 ####  Utility Functions
 
-| Name | Purpose |
+| Name | Description / Output Value |
 |---|---|
-| `normalize_email(value)` | Returns the lowercase email prefix |
-| `normalize_sis_id(value)` | Returns a normalized SIS ID |
-| `detect_excel_damage(fieldnames, rows, ...)` | Returns warnings about possible CSV damage |
+| `normalize_email(value)` | Outputs the lowercase email prefix |
+| `normalize_sis_id(value)` | Outputs a normalized SIS ID |
+| `detect_excel_damage(fieldnames, rows, ...)` | Outputs warnings about possible CSV damage |
 | `find_config(start=".")` | Searches for a configuration file and outputs its path or `None`. |
 
 #### Data Types
 
-| Name | Purpose |
+| Name | Description |
 |---|---|
 | `Roster`, `RosterRow` | Gradebook and student information |
 | `GradescopeExport`, `Submission` | Gradescope export and submission information |
