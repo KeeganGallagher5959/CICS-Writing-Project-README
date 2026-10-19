@@ -56,7 +56,7 @@ Verify (In Command Line): gbmerge --version
 
 ## API
 
-### Using the Python Library
+### Python Library
 
 Instead of using the API through command lines you can alternatively use it in Python with the following code:
 
@@ -88,72 +88,7 @@ plan = job.run(dry_run=True)
 print(plan.format_preview())
 ```
 
-### Public API Reference
-
-#### Jobs and File Loading
-
-| Name | Description / Return Value |
-|---|---|
-| `MergeJob(roster, exports, assignment, config)` | Creates a merge job. Provides `load()`, `match()`, `score()`, `plan()`, `write()`, and `run()` methods. |
-| `Gradebook` | Represents a loaded gradebook. Provides `load()`, `match()`, `score()`, and `plan()` methods. |
-| `load_roster(path, ...)` | Loads an LMS gradebook CSV and returns a `Roster`. |
-| `load_export(path, ...)` | Loads one Gradescope CSV and returns a `GradescopeExport`. |
-| `load_exports(directory, ...)` | Loads matching Gradescope CSVs and returns a list of `GradescopeExport` objects. |
-| `load_config(path=None, ...)` | Loads configuration and returns a `Config`. |
-| `find_config(start=".")` | Searches for a configuration file and returns its path or `None`. |
-
-#### Student Matching
-
-| Name | Description / Return Value |
-|---|---|
-| `match_students(roster, exports, ...)` | Matches submissions to students and returns a `MatchReport`. |
-| `parse_match_on(value)` | Validates matching strategies and returns a list of strategy names. |
-| `explain_unmatched(report, roster)` | Returns a list of explanations for unmatched submissions. |
-
-`match_students()` supports the following optional parameters:
-
-- `match_on` — Matching strategies in priority order (`sis_id`, `email`, `name`).
-- `fuzzy` — Enables approximate name matching; default is `False`.
-- `fuzzy_threshold` — Minimum name similarity; default is `0.88`.
-- `on_ambiguous` — How to handle ambiguous matches: `report`, `skip`, `first`, or `fail`.
-
-#### Grading Policies
-
-| Name | Description / Return Value |
-|---|---|
-| `apply_policy(roster, report, policy=None, ...)` | Applies grading rules and returns a `ScoreSheet`. |
-| `register_policy(name, fn=None)` | Registers a custom policy function or decorator. |
-| `get_policy(name)` | Returns a registered policy function. |
-| `available_policies()` | Returns a sorted list of available policy names. |
-| `late_days(lateness_seconds, grace_minutes=0)` | Returns the number of started late days. |
-| `apply_rounding(value, mode="half_up", places=2)` | Returns a rounded numeric score. |
-| `drop_lowest_questions(question_scores, count)` | Returns the remaining score total and a list of dropped questions. |
-
-#### Output
-
-| Name | Description / Return Value |
-|---|---|
-| `build_upload_plan(roster, sheet, assignment_column, ...)` | Builds an in-memory `UploadPlan`. |
-| `write_upload_csv(path, plan, ...)` | Writes an LMS upload CSV and returns its path. |
-| `write_audit_log(path, plan, ...)` | Writes a JSON-lines audit log and returns its path. |
-
-#### Public Data Types and Utilities
-
-| Name | Purpose |
-|---|---|
-| `Roster`, `RosterRow` | Gradebook and student information |
-| `GradescopeExport`, `Submission` | Gradescope export and submission information |
-| `Config`, `DEFAULT_CONFIG` | Configuration settings and defaults |
-| `MatchReport`, `Match`, `Ambiguity`, `Duplicate` | Student matching results |
-| `Policy`, `PolicyOutcome`, `ScoreContext` | Grading policy information |
-| `ScoreSheet`, `ScoredStudent` | Calculated grades |
-| `UploadPlan`, `Change` | Output CSV and proposed changes |
-| `normalize_email(value)` | Returns the lowercase email prefix |
-| `normalize_sis_id(value)` | Returns a normalized SIS ID |
-| `detect_excel_damage(fieldnames, rows, ...)` | Returns warnings about possible CSV damage |
-| `__version__` | Package version (0.6.2) |
-
-### Custom Policy Hook
+### Custom Policy
 
 The `register_policy()` function lets users make their own grading rules.
 
@@ -188,19 +123,80 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 - `ctx.is_late` — Whether the submission was late.
 - `ctx.exempt` — Whether the student is exempt from late penalties.
 
-### Exceptions
+### References
+
+#### Loading Functions
+
+| Name | Description / Return Value |
+|---|---|
+| `load_roster(path, ...)` | Loads an LMS gradebook CSV and outputs a `Roster`. |
+| `load_export(path, ...)` | Loads one Gradescope CSV and outputs a `GradescopeExport`. |
+| `load_exports(directory, ...)` | Loads matching Gradescope CSVs and outputs a list of `GradescopeExport` objects. |
+| `load_config(path=None, ...)` | Loads configuration and outputs a `Config`. |
+
+#### Matching Functions
+
+| Name | Description / Return Value |
+|---|---|
+| `match_students(roster, exports, ...)` | Matches submissions to students and outputs a `MatchReport`. |
+| `parse_match_on(value)` | Validates matching strategies and outputs a list of strategy names. |
+| `explain_unmatched(report, roster)` | Outputs a list of explanations for unmatched submissions. |
+
+#### Policy Functions
+
+| Name | Description / Return Value |
+|---|---|
+| `apply_policy(roster, report, policy=None, ...)` | Applies grading rules and outputs a `ScoreSheet`. |
+| `register_policy(name, fn=None)` | Registers a custom policy function. |
+| `get_policy(name)` | Outputs a registered policy function. |
+| `available_policies()` | Outputs a sorted list of available policy names. |
+| `late_days(lateness_seconds, grace_minutes=0)` | Outputs the number of started late days. |
+| `apply_rounding(value, mode="half_up", places=2)` | Outputs a rounded numeric score. |
+| `drop_lowest_questions(question_scores, count)` | Outputs the remaining score total and a list of dropped questions. |
+
+#### Create Functions
+
+| Name | Description / Return Value |
+|---|---|
+| `build_upload_plan(roster, sheet, assignment_column, ...)` | Builds an in-memory `UploadPlan`. |
+| `write_upload_csv(path, plan, ...)` | Writes an LMS upload CSV and outputs its path. |
+| `write_audit_log(path, plan, ...)` | Writes a JSON-lines audit log and outputs its path. |
+
+####  Utility Functions
+
+| Name | Purpose |
+|---|---|
+| `normalize_email(value)` | Returns the lowercase email prefix |
+| `normalize_sis_id(value)` | Returns a normalized SIS ID |
+| `detect_excel_damage(fieldnames, rows, ...)` | Returns warnings about possible CSV damage |
+| `find_config(start=".")` | Searches for a configuration file and outputs its path or `None`. |
+
+#### Data Types
+
+| Name | Purpose |
+|---|---|
+| `Roster`, `RosterRow` | Gradebook and student information |
+| `GradescopeExport`, `Submission` | Gradescope export and submission information |
+| `Config`, `DEFAULT_CONFIG` | Configuration settings |
+| `MatchReport`, `Match`, `Ambiguity`, `Duplicate` | Student matching results |
+| `Policy`, `PolicyOutcome`, `ScoreContext` | Grading policy information |
+| `ScoreSheet`, `ScoredStudent` | Calculated grades |
+| `UploadPlan`, `Change` | Output CSV and proposed changes |
+
+### Errors
 
 | Exception | Description |
 |---|---|
-| `ConfigError` | Invalid or missing configuration |
+| `ConfigError` | Invalid configuration |
 | `RosterError` | Invalid LMS gradebook |
 | `ExportError` | Invalid Gradescope export |
-| `EncodingError` | File encoding or decoding failure |
+| `EncodingError` | File encoding failure |
 | `ColumnNotFoundError` | Required column is missing |
-| `MatchError` | Invalid matching strategy or matching failure |
+| `MatchError` | Invalid matching strategy |
 | `AmbiguousMatchError` | Multiple possible student matches |
-| `PolicyError` | Invalid or failing grading policy |
+| `PolicyError` | Invalid grading policy |
 | `WriteError` | Output file could not be written |
+| `KeyError` | Invalid column name |
 
 ---
 ## Maintainers
