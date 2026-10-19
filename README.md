@@ -63,8 +63,7 @@ set "PATH=%PATH%;C:{YOUR PATH}"
 ---
 
 ## Usage
-<!-- TODO -->
-
+Note that when running any commands it will output one of three numbers as exit codes: 0 means the command was fine, 1 means something was refused, 2 means bad usage.
 
 ### CLI
 ```
