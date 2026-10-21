@@ -490,7 +490,7 @@ The policy function (Ex: `half_credit_late(ctx)` in the above code) receives a `
 ---
 ## Maintainers
 
-Keegan Gallagher - ksgallagher@umass.edu
+Keegan Gallagher - https://github.com/KeeganGallagher5959
 
 ---
 
