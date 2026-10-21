@@ -6,15 +6,15 @@ Matches students from a LMS roster to their grades on Gradescope, calculates the
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
-  - [CLI](#cli)
-     - [Help](#help)
-     - [Required Arguments](#required-arguments)
-     - [Important Argument](#important-argument)
-     - [Common Error](#common-error)
-     - [Check Inputs](#check-inputs)
-     - [Match Report](#match-report)
-     - [Configuration Setup](#configuration-setup)
-     - [Merge](#merge)
+- [CLI](#cli)
+  - [Help](#help)
+  - [Required Arguments](#required-arguments)
+  - [Important Argument](#important-argument)
+  - [Common Error](#common-error)
+  - [Check Inputs](#check-inputs)
+  - [Match Report](#match-report)
+  - [Configuration Setup](#configuration-setup)
+  - [Merge](#merge)
 - [API](#api)
   - [Python Library](#python-library)
   - [Custom Policy](#custom-policy)
@@ -85,11 +85,11 @@ mkdir exports
 copy "%USERPROFILE%\Downloads\{GRADE SCORE FILE NAME}.csv" exports\
 ```
 
-### CLI
+## CLI
 
 In the following examples our `{ROSTER FILE NAME}.csv` will be `roster.csv` and our `{GRADE SCORE FILE NAME}.csv` will be `hw4_scores.csv`.
 
-#### Help
+### Help
 
 If the user wants to see the four sub commands or examples of commands that are commonly used in this process they can use the following command to do so.
 
@@ -125,7 +125,7 @@ the assignment name is the LMS column header, quoted, including the id in
 brackets. it is not the name of the gradescope assignment.
 ```
 
-#### Required Arguments
+### Required Arguments
 
 If a user attempts to run a command without the required arguments the user will receive a warning about the missing requirments.
 
@@ -144,7 +144,7 @@ gbmerge merge: error: the following arguments are required: --assignment
 ```
 This tells us we are missing the required assignment argument.
 
-#### Important Argument
+### Important Argument
 If a single file is in the user's export folder then commands will default to that one without the export argument.
 
 If there are multiple files inside the exports folder it is important to distinguish which one the user is targeting, the following command is an example of making sure the command targets the grades from the `hw4_scores.csv` in the exports folder.
@@ -154,7 +154,7 @@ If there are multiple files inside the exports folder it is important to disting
 gbmerge merge --roster roster.csv --assignment "Homework 4 (884213)" --exports exports/hw4_scores.csv --dry-run
 ```
 
-#### Common Error
+### Common Error
 
 Remember to have the homework assignment in double quotations. 
 
@@ -215,7 +215,7 @@ note: 1 of these replace a grade the LMS already has. There is no undo.
 dry run: nothing written.
 ```
 
-#### Check Inputs
+### Check Inputs
 
 It is important before starting any merges to check that there is no issues with your CSV files, if no problems are found we are good to perform a dry run. If there are issues on the checking stage that means there are issues with the file data itself.
 
@@ -236,7 +236,7 @@ ok    no config file in use; built-in defaults apply. 'gbmerge init-config' writ
 no problems found
 ```
 
-#### Match Report
+### Match Report
 
 The check command only looks to see if the files are valid, not how the data within them will work together. The Match Report command allows the user to see if any students remain unmatched and if so they can see the reason why with the use of the explain argument.
 
@@ -254,7 +254,7 @@ The above command used the match-on attribute, this allows the user to specify b
 
 The output shows that all students were successfully matched by id.
 
-#### Configuration Setup
+### Configuration Setup
 
 Grading rules can be applied to the grading calculations during merge through creating a configuration file. If no configuration files exists a default configuration to calculate grades are used. The following command is how a user can create there own configuration.
 
@@ -270,7 +270,7 @@ every key in it is a default; delete the ones you do not need.
 ```
 To change the configuration the user must edit the file manually. Doing this command again will state that one already exists, add the attribute `--yes` to the end of the command to overwrite the configuration file (This is a fast way to reset all of the configuration rules back to default).
 
-#### Merge
+### Merge
 
 Before actually merging make sure to perform a dry run on what you want to merge with the following command.
 
@@ -495,5 +495,8 @@ Keegan Gallagher - ksgallagher@umass.edu
 ---
 
 ## Credits
+This Repository was created and built by Tim Richards. 
+
+This README was created and built by Keegan Gallagher.
 
 This README was assisted in its creation with the use of chatgpt to help with markdown formatting and the making test of files.
